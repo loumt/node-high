@@ -1,9 +1,16 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+var user = require('../controller/UserController');
+
+var net = require('./../controller/NetController');
+
+
+router.get('/user/index',user.index);
+router.get('/user/list',user.userList);
+router.post('/user/create',user.userRegister);
+
+
+router.get('/net/get',net.getSize);
 
 module.exports = router;

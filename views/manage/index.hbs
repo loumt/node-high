@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Index</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <style>
+        #demo:hover + #change{
+           color:#F30000
+        }
+        #img-head{
+            display:block;
+            width:100px;
+            height:100px;
+        }
+    </style>
+  </head>
+  <body>
+    <div id='demo'>移到元素下面变色</div>
+    <hr style='border:none;border-top:1px dashed #0066CC;'>
+    <div id='change'>变化1</div>
+    <hr style='border:none;border-top:1px dashed #0066CC;'>
+    <div id='change2'>变化2</div>
+    <img id='img-head' src='http://upload-images.jianshu.io/upload_images/10481-f87da3734077ea7f.jpg'/>
+    <div id='data'></div>
+
+    <script src='/javascripts/jquery-v2.2.4.js'></script>
+    <script src='/javascripts/utils/common.js'></script>
+    <script>
+        $(function(){
+            initData();
+        });
+
+        function initData(){
+            ajaxGet('/user/list',{},function(error,result){
+                var dataEle = $('#data');
+                var str = '';
+                result.data.list.forEach(function(item){
+                    str += '<div>'+item.username+'</div><div>'+item.password+'</div>'
+                });
+                dataEle.html(str);
+            })
+        }
+        function show (){
+            alert('11111');
+        }
+    </script>
+  </body>
+</html>

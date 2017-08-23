@@ -1,0 +1,9 @@
+[2017-08-23 10:59:21.985] [INFO] system - Logger Info!!
+[2017-08-23 10:59:21.993] [ERROR] system - Logger Error!!
+[2017-08-23 11:01:29.957] [INFO] system - Logger Info!!
+[2017-08-23 11:01:29.964] [WARN] system - Logger Warn!!
+[2017-08-23 11:01:29.964] [ERROR] system - Logger Error!!
+[2017-08-23 11:02:39.705] [INFO] system - Logger Info!!
+[2017-08-23 11:02:39.713] [DEBUG] system - Logger Debug!!
+[2017-08-23 11:02:39.713] [WARN] system - Logger Warn!!
+[2017-08-23 11:02:39.714] [ERROR] system - Logger Error!!
