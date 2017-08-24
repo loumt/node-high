@@ -11,6 +11,10 @@ router.get('/user/list',user.userList);
 router.post('/user/create',user.userRegister);
 
 
-router.get('/net/get',net.getSize);
+router.get('/net/index',net.toIndex);
+router.get('/net/docIndex',net.toDocIndex);
+router.get('/net/toFollow',net.toFollowJianShu);
+router.get('/net/getDocList',net.getDocList);
+
 
 module.exports = router;

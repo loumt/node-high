@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Index</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+
+  </head>
+  <body>
+    <button onclick='take();'>每日一爬(简书)</button>
+
+    <script src='/javascripts/jquery-v2.2.4.js'></script>
+    <script src='/javascripts/utils/common.js'></script>
+    <script>
+        $(function(){
+
+        });
+
+        function take(){
+            ajaxGet('/net/toFollow',{},function(error,result){
+                if(error){
+                    alert('service error.....');
+                }
+                if(result.success){
+                    alert(result.message);
+                }
+            })
+        }
+
+    </script>
+  </body>
+</html>

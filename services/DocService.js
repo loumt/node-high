@@ -76,3 +76,14 @@ exports.createDocs = (docs,callback)=>{
         callback(error);
     })
 }
+
+exports.getDocByPage = (offset, limit, callback) => {
+    db.Doc.findAndCountAll({
+        offset: offset,
+        limit: limit
+    }).then((docs) => {
+        callback(null, docs);
+    }).catch((error) => {
+        callback(error);
+    });
+}
