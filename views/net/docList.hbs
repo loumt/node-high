@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Index</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <style>
+
+    </style>
+  </head>
+  <body>
+    <div style = 'width:90%;height:90%;align-text:center;'>
+         <div id='note-list'>
+
+         </div>
+         <div>向下LOAD.....</div>
+         <div><span id ='msg'></span></div>
+    </div>
+    <div></div>
+    <script src='/javascripts/jquery-v2.2.4.js'></script>
+    <script src='/javascripts/utils/common.js'></script>
+    <script>
+        let pageSize  = 20;
+        let pageNo = 1;
+
+        $(function(){
+            initData();
+        });
+
+
+        function loadAgain(){
+            pageNo++;
+            initData();
+        }
+
+        function initData(){
+            ajaxGet('/net/getDocList',{pageSize:pageSize,pageNo:pageNo},function(error,result){
+                if(error){
+                    $('#msg').text('ServiceError..');
+                }
+                if(result.success){
+                    var text = takeContent(result.data.rows);
+                    $('#note-list').append(text);
+                }
+            })
+        }
+
+        function takeContent(list){
+            var htmlContent = '';
+            for(let i in list){
+                htmlContent += content(list[i]);
+
+            }
+            return htmlContent;
+        }
+
+        function content(item){
+            return '<div><div>'+item.title+'</div><div>'+item.author+'</div><div>'+item.content+'</div></div>'
+        }
+    </script>
+  </body>
+</html>
