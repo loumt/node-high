@@ -1,25 +1,20 @@
+'use strict'
 var url = require('url');
 var path = require('path');
 var logger = require('./../utils/logger').system();
-var netThrogh = require('./../utils/ThroughNet');
-
-const netTools = new netThrogh("http://www.baidu.com");
-
+var ThroughNet = require('./../utils/ThroughNet');
 
 exports.getSize  = (req,res,next)=>{
-    netTools.addUrl("www.baid.com");
-    netTools.addUrl("www.baid.com");
-    netTools.addUrl("www.baid.com");
-    netTools.addUrl("www.baid.com");
-    netTools.addUrl("www.baid.com");
-    netTools.addUrl("www.baid.com");
-    var urls =  netTools.getUrls();
 
-    logger.info("Logger Info!!");
-    logger.debug("Logger Debug!!");
-    logger.warn("Logger Warn!!");
-    logger.error("Logger Error!!");
+    let baseUrl = 'http://www.jianshu.com';
 
+    let netTools =  new ThroughNet(baseUrl);
 
-    res.status(200).json({success:true,data:{list:urls,size:urls.length }});
+    netTools.run({},(error,message)=>{
+        console.log(message);
+    });
+
+    res.status(200).json({success:true});
 }
+
+

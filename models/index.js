@@ -12,7 +12,7 @@ var sequelize = new Sequelize(
     {
         'dialect': dbconfig.dialect, // 数据库使用mysql
         'host': dbconfig.host,
-        'port': dbconfig.port // 数据库服务器端口
+        'port': dbconfig.port// 数据库服务器端口
     }
 );
 

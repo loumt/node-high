@@ -1,79 +1,100 @@
+'use strict'
 var superagent = require('superagent');
 var url = require('url');
 var path = require('path');
 var logger = require('./../utils/logger').system();
+var async = require('async');
+var nethandler = require('./../utils/netHandler');
+const cheerio = require('cheerio');
 
-var urls= [];
-var htmls = [];
 const max_url_lenth = 50;
 
-function netThrough(rootUrl){
-    if(rootUrl){
-        urls.push(rootUrl);
-    }else{
-        throw new Error('根地址未设置');
-    }
-}
-
-
-
-/**
- * 添加网址
- * @param url
- */
-netThrough.prototype.addUrl = (url)=>{
-    if(urls.length == max_url_lenth){
-        console.log('urls length 已满');
-        logger.info('urls length 已满');
-        return;
-    }
-    urls.push(url);
-}
-
-netThrough.prototype.getUrls =()=>{
-    return urls;
-}
-
-urlSize = ()=>{
-    return urls.length;
-}
-
-netThrough.prototype.getUrl = ()=>{
-    if(urlSize() == 0){
-        console.log('urls length is 0');
-        logger.info('urls length is 0');
-        return;
-    }
-
-    return urls.pop();
-}
-
 var default_options = {
-    delay:5000
+    delay: 5000,
+    limit: 5
 };
 
+class ThroughNet {
 
-netThrough.prototype.run = (options,callback)=>{
-    //配置相关
-    var delayTimes = options.delay || default_options.delay;
+    constructor(rootUrl) {
+        this._urls = [rootUrl];
+        this._rootPath = [rootUrl];
+        this._handler = nethandler.action(rootUrl);
+    }
 
-    //result
-    var throghCount = 0; //爬次
-    var throghUrl = []; //爬路径
+    addUrl(url) {
+        if (this._urls.length == max_url_lenth) {
+            logger.info('urls length 已满');
+            return;
+        }
+        this._urls.push(url);
+    }
 
-    urls.forEach((url)=>{
+    getUrls() {
+        return this._urls;
+    }
 
-        console.log("Now Url:"+url);
+    isUrlsEmpty() {
+        return this._urls.length == 0;
+    }
 
-        superagent.get(url).end((error,result)=>{
-            throghCount++;
-            throghUrl.push(url);
-            console.log("result:"+result);
-        });
+    getUrl() {
+        if (!this.isUrlsEmpty()) {
+            return this._urls.pop();
+        } else {
+            return "";
+        }
+    }
 
+    fetchUrl(url, callback) {
+        superagent.get(url)
+            .end((error, result) => {
+                var html_text = result.text;
+                callback(null, html_text);
+            });
+    }
 
-    });
+    run(options, callback) {
+        //配置相关
+        if (!options) {
+            options = default_options;
+        }
+
+        var delayTimes = options.delay || default_options.delay;
+        var limit = options.limit || default_options.limit;
+
+        this.startTask(this._urls, delayTimes, limit);
+        callback(null, 'Starting......')
+    }
+
+    startTask(urls, delay, limit) {
+        async.mapLimit(urls, limit, (url) => {
+
+            async.waterfall([
+                (callback) => {
+                    this.fetchUrl(url, callback);
+                },
+                (result, callback) => {
+                    try{
+                        this._handler(result);
+                    }catch(error){
+                        callback(error,'OK');
+                    }
+                }
+            ], (error, result) => {
+                if (error) {
+                    console.error("爬取失败:" + error);
+                    return;
+                }
+                console.log(result);
+            });
+
+        }), (err) => {
+            console.error("爬取失败:" + err);
+        }
+    }
 }
 
-module.exports = netThrough;
 
+
+module.exports = ThroughNet;
