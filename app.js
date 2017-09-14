@@ -9,9 +9,8 @@ var routes =require('./routes');
 //配置输出
 var consoleConfig = require('./utils/logger').initConfig();
 
-
 var m = require('./mq/MqService');
-var mqDemo1  = require('./mq/MqService');
+// var mqDemo1  = require('./mq/MqService');
 // var mqDemo  = require('./rabbit-mq/client/mq.client');
 
 var app = express();

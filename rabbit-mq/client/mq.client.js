@@ -124,11 +124,11 @@ class MQClient extends EventEmitter{
     }
 }
 
-var mq = new MQClient();
-
-setInterval(function(){
-    mq.sendMsg({message:'15614616'})
-},2000);
+// var mq = new MQClient();
+//
+// setInterval(function(){
+//     mq.sendMsg({message:'15614616'})
+// },2000);
 
 
 
