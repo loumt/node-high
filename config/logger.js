@@ -23,12 +23,19 @@ module.exports = {
             filename: 'logs/system',
             pattern: '_yyyy-MM-dd.log',
             alwaysIncludePattern: true
+        },
+        rabbitMq:{
+            type: 'dateFile',
+            filename: 'logs/rabbitMq',
+            pattern: '_yyyy-MM-dd.log',
+            alwaysIncludePattern: true
         }
     },
     categories: {
         default: { appenders: [ 'out' ], level: 'info' },
         system: { appenders: [ 'system' ], level: 'debug' },
         consoleLog: { appenders: [ 'out','consoleLog' ], level: 'info' },
-        error: { appenders: [ 'out','error' ], level: 'info' }
+        error: { appenders: [ 'out','error' ], level: 'info' },
+        rabbitMq:{ appenders: [ 'out','rabbitMq' ], level: 'info' }
     }
 }

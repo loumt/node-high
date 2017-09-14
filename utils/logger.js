@@ -14,5 +14,8 @@ module.exports = {
 
     system: function () {
         return log4js.getLogger('system');
+    },
+    rabbitMq: function () {
+        return log4js.getLogger('rabbitMq');
     }
 };
