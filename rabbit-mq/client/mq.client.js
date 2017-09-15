@@ -5,7 +5,7 @@ const _ = require('lodash');
 const EventEmitter = require('events').EventEmitter;
 
 const MQ_CONFIG = require('./../configs/example.config');
-const MQ_HANDER = require('./../handlers/example.handler');
+var customerHandler = require('./../handlers/example.handler');
 
 var client = null;
 
@@ -51,12 +51,9 @@ class MQClient extends EventEmitter {
     initQueue(queue) {
         this._queue = queue;
         this.queueBindExchange(queue);
-
         if(this._role === MQ_CONFIG.ROLE_TYPE.CUSTOMER){
             this.createCustomer(queue);
         }
-        this.createCustomer(queue);
-
         this.loggerInfo('Queue Init OK')
     }
     bindInfo(){
@@ -69,17 +66,7 @@ class MQClient extends EventEmitter {
 
     createCustomer(q) {
         // Subscribe to the queue
-        q.subscribe(function (data) {
-                // Handle message here
-                switch (typeof data) {
-                    case 'object':
-                        console.log(`Get message ${data.message}`);
-                        break;
-                    default:
-                        console.log('message cant sign!!');
-                }
-            }
-        );
+        q.subscribe(customerHandler);
     }
 
     initClient() {

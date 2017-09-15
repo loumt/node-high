@@ -1,13 +1,10 @@
-
-
-
-module.exports = function (data) {
+module.exports = function(data){
     // Handle message here
     switch (typeof data){
         case 'object':
-            this.loggerInfo(`Get message ${data.message}`);
+            console.log(`Get message ${data.message}`);
             break;
         default:
-            this.loggerInfo('message cant sign!!');
+            console.log('message cant sign!!');
     }
-};
+}
