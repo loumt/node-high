@@ -1,6 +1,6 @@
 'use strict'
 const amqp = require('amqp');
-const logger = require('../utils/logger').system();
+const logger = require('../utils/logger').rabbitMq();
 const _ = require('lodash');
 const EventEmitter = require('events').EventEmitter;
 
@@ -13,7 +13,7 @@ const MqConfig = {
     },
     messageInfo: {
         routingKey: 'test.routing.key',
-        bindKey: 'test.bind.key',
+        bindKey: 'test.routing.key',
         exchange: {
             type: 'topic',
             name: 'test.amqp.exchange'
@@ -26,10 +26,6 @@ var client = null;
 
 //建立一个缓存机制
 var retainTask = [];
-
-var _exchangeReady = false;
-var _queueReady = false;
-
 
 class MQClient extends EventEmitter {
     constructor(connConfig = {}) {
@@ -54,28 +50,30 @@ class MQClient extends EventEmitter {
     connError() {
         this.loggerInfo('Connection Error!!!');
     }
-
     connReady() {
         this.loggerInfo('Connection Ready!!!');
     }
 
     initExchange(exc) {
-        _exchangeReady = true;
         this._exchange = exc;
+        this.loggerInfo('Exchange Init OK')
     }
 
     initQueue(queue) {
-        _queueReady = true;
         this._queue = queue;
         this.queueBindExchange(queue);
         this.createCustomer(queue);
+        this.loggerInfo('Queue Init OK')
+    }
+    bindInfo(){
+        this.loggerInfo('Queue Bind Exchange OK');
     }
 
     queueBindExchange(q) {
-        q.bind(MqConfig.messageInfo.exchange.name, MqConfig.messageInfo.routingKey);
+        q.bind(MqConfig.messageInfo.exchange.name, MqConfig.messageInfo.bindKey,this.bindInfo.bind(this));
     }
 
-    createCustomer(q) {
+    createCustomer(q,custFunc) {
         // Subscribe to the queue
         q.subscribe(function (data) {
                 // Handle message here
@@ -109,31 +107,32 @@ class MQClient extends EventEmitter {
     }
 
     loggerInfo(msg) {
-        logger.info(`${this.connectParams.host} :` + msg);
+        logger.info(`[MQ]_${this.connectParams.host} : ${msg}`);
     }
 
     //send message
     sendMsg(sendData) {
         //validate useful
-        if (_exchangeReady && _queueReady) {
-
-            this._exchange.publish(MqConfig.messageInfo.routingKey, sendData, {routingKey: MqConfig.messageInfo.routingKey, exchange: MqConfig.messageInfo.exchange.name},
-                function (isSuccess, error) {
-                    if (isSuccess) {
-                        console.log(`[MQ PUBLISH MESSAGE]`);
-                    } else {
-                        console.log(`[ERROR PUBLISH MSG]: ${error.message}`);
-                    }
-                }
-            );
+        if (this._exchange && this._queue) {
+            this._exchange.publish(MqConfig.messageInfo.routingKey, sendData, {exchange: MqConfig.messageInfo.exchange.name},this.sendReact.bind(this));
         } else {
-            //Un use
             retainTask.push(sendData);
         }
     }
 
+    sendReact(isSuccess,error){
+        if (isSuccess) {
+            this.loggerInfo(`MSG PUBLISHED SUCCESS`);
+        } else {
+            this.loggerInfo(`MSG PUBLISHED FALSE:${error}`);
+        }
+    }
 
-    //publisher or customer
+    //Close Conn
+    disConnection() {
+        this._connection.disconnect();
+    }
+
     static  getInstance() {
         //return
         if (client == null) {
@@ -144,17 +143,18 @@ class MQClient extends EventEmitter {
 
     //reset client
     static clear() {
+        client.disconnect();
         client = null;
     }
 }
 
-// module.exports = MQClient.getInstance();
+module.exports = MQClient;
 
-var mq = new MQClient();
-
-setInterval(function () {
-    mq.sendMsg({message: 'ssssssss'})
-}, 2000);
+// var mq = new MQClient();
+//
+// setInterval(function () {
+//     mq.sendMsg({message: 'ssssssss'})
+// }, 2000);
 
 
 
