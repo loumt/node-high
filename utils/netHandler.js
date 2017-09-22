@@ -2,22 +2,23 @@
  * Created by loumt on 2017/8/23.
  */
 'use strict'
-const cheerio = require('cheerio');
+var cheerio = require('cheerio');
 var async = require('async');
 var superagent = require('superagent');
-var docService = require('./../services/DocService');
+var docService = require('../services/ScrapyService');
+var logger = require('./../utils/logger').system();
 
 const NET_TYPE = {
-    JIANSHU: {url:'http://www.jianshu.com',service:docService} //service should have method {createDocSafe}
+    JianShu: {url:'http://www.jianshu.com',service:docService} //service should have method {createDocSafe}
 };
 
 exports.action = (type) => {
     switch (type) {
-        case NET_TYPE.JIANSHU.url:
+        case NET_TYPE.JianShu.url:
             return jianShuAction;
             break;
         default:
-            console.log("End~~");
+            logger.info("End~~");
     }
 }
 
@@ -38,7 +39,7 @@ var jianShuAction = (text) => {
             let ch = titleEle.children;
             if (Array.isArray(ch) && ch[0]) {
                 model = {
-                    href: NET_TYPE.JIANSHU.url + titleEle.attribs.href,
+                    href: NET_TYPE.JianShu.url + titleEle.attribs.href,
                     target: titleEle.attribs.target,
                     title: typeof ch[0]['data'] == 'string' ? ch[0]['data'] : 'Title'
                 };
@@ -54,20 +55,17 @@ var jianShuAction = (text) => {
                     callback(null,model);
                 },
                 (model,callback)=>{
-                    NET_TYPE.JIANSHU.service.createDocSafe(model,callback);
+                    NET_TYPE.JianShu.service.createDocSafe(model,callback);
                 }
             ],(error,result)=>{
                 if(error){
-                    console.log("爬取失败:"+error);
-                    throw new Error('爬取页面失败......');
+                    logger.error(`爬取失败[message:${error.message}]`);
                     return;
                 }
-                console.log('['+model.href+']DB:'+result.id);
             })
         }
     }
 }
-
 
 //抓取网页
 function fetchUrl(url, callback) {

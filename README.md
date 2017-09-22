@@ -3,8 +3,9 @@
 >> use node and study it!
 
 - use node
-- use angular
 - use hbs
+
+-node modules
 
 
 

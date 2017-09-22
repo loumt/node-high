@@ -1,9 +1,7 @@
 'use strict'
-var url = require('url');
-var path = require('path');
 var logger = require('./../utils/logger').system();
 var ThroughNet = require('./../utils/ThroughNet');
-var docService =require('./../services/DocService');
+var docService =require('../services/ScrapyService');
 
 
 /**
@@ -13,7 +11,7 @@ var docService =require('./../services/DocService');
  * @param next
  */
 exports.toIndex = (req,res,next)=>{
-    res.render('net/index');
+    res.render('scrapy/index');
 }
 
 /**
@@ -23,7 +21,7 @@ exports.toIndex = (req,res,next)=>{
  * @param next
  */
 exports.toDocIndex = (req,res,next)=>{
-    res.render('net/docList');
+    res.render('scrapy/docList');
 }
 
 /**
@@ -55,10 +53,10 @@ exports.getDocList = (req,res,next)=>{
     let pageNo  = req.query.pageNo || 1;
     let pageSize = req.query.pageSize || 20;
     docService.getDocByPage(2,2,(error,result)=>{
-       if(error){
-           res.status(200).json({success:false,message:'获取文章列表失败'});
-           return;
-       }
+        if(error){
+            res.status(200).json({success:false,message:'获取文章列表失败'});
+            return;
+        }
         res.status(200).json({success:true,data:result});
 
     });
