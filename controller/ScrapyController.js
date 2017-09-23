@@ -34,9 +34,9 @@ exports.toFollowJianShu  = (req,res,next)=>{
 
     let baseUrl = 'http://www.jianshu.com';
 
-    let netTools =  new ScrapyClient(baseUrl);
+    let client =  new ScrapyClient(baseUrl);
 
-    netTools.run({},(error,message)=>{
+    client.run({},(error,message)=>{
         console.log(message);
     });
 

@@ -7,8 +7,10 @@ var bodyParser = require('body-parser');
 var routes =require('./routes');
 
 //配置输出
-var consoleConfig = require('./utils/logger').initConfig();
+require('./utils/logger').initConfig();
 
+//初始化每日爬虫任务
+require('./modules/Schedule/schedule.client');
 
 var app = express();
 
