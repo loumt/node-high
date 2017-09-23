@@ -1,12 +1,13 @@
 /**
  * Created by loumt on 2017/8/23.
+ * 爬虫 {源:简书}
  */
 'use strict'
 var cheerio = require('cheerio');
 var async = require('async');
 var superagent = require('superagent');
-var docService = require('../services/ScrapyService');
-var logger = require('./../utils/logger').system();
+var docService = require('./../../services/ScrapyService');
+var logger = require('./../../utils/logger').system();
 
 const NET_TYPE = {
     JianShu: {url:'http://www.jianshu.com',service:docService} //service should have method {createDocSafe}

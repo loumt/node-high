@@ -2,9 +2,9 @@
 var superagent = require('superagent');
 var url = require('url');
 var path = require('path');
-var logger = require('./../utils/logger').system();
+var logger = require('./../../utils/logger').system();
 var async = require('async');
-var nethandler = require('./../utils/netHandler');
+var scrapyHandler = require('./../Scrapy/scrapy.handler');
 const cheerio = require('cheerio');
 
 const max_url_lenth = 50;
@@ -19,7 +19,7 @@ class ThroughNet {
     constructor(rootUrl) {
         this._urls = [rootUrl];
         this._rootPath = [rootUrl];
-        this._handler = nethandler.action(rootUrl);
+        this._handler = scrapyHandler.action(rootUrl);
     }
 
     addUrl(url) {

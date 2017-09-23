@@ -1,6 +1,6 @@
 'use strict'
 var logger = require('./../utils/logger').system();
-var ThroughNet = require('./../utils/ThroughNet');
+var ScrapyClient = require('./../modules/Scrapy/scrypy.client');
 var docService =require('../services/ScrapyService');
 
 
@@ -34,7 +34,7 @@ exports.toFollowJianShu  = (req,res,next)=>{
 
     let baseUrl = 'http://www.jianshu.com';
 
-    let netTools =  new ThroughNet(baseUrl);
+    let netTools =  new ScrapyClient(baseUrl);
 
     netTools.run({},(error,message)=>{
         console.log(message);
