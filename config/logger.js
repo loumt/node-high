@@ -1,4 +1,12 @@
 //v2.0.0+
+// var dir = '/root/logs/node-high';
+var dir = 'D:/node-high';
+
+//defined a layout by myself
+// log4js.addLayout('json', function(config) {
+//     return function(logEvent) { return JSON.stringify(logEvent) + config.separator; }
+// });
+
 module.exports = {
     appenders:{
         //控制台输出
@@ -7,28 +15,40 @@ module.exports = {
         },
         consoleLog:{
             type: 'dateFile',
-            filename: 'logs/console-log',
+            filename: dir+'/console',
             pattern: '_yyyy-MM-dd.log',
             alwaysIncludePattern: true,
-            compress: true
+            //compress: true,
+            layout:{type:'basic'},
+            encoding:'utf-8',
+            daysToKeep:15
         },
         error:{
             type:'dateFile',
-            filename:'logs/error',
+            filename:dir+'/error',
             pattern: '_yyyy-MM-dd.log',
-            alwaysIncludePattern: true
+            alwaysIncludePattern: true,
+            layout:{type:'basic'},
+            encoding:'utf-8',
+            daysToKeep:15
         },
         system:{
             type: 'dateFile',
-            filename: 'logs/system',
+            filename: dir+'/system',
             pattern: '_yyyy-MM-dd.log',
-            alwaysIncludePattern: true
+            alwaysIncludePattern: true,
+            layout:{type:'basic'},
+            encoding:'utf-8',
+            daysToKeep:15
         },
         rabbitMq:{
             type: 'dateFile',
-            filename: 'logs/rabbitMq',
+            filename: dir+'/rabbit-mq',
             pattern: '_yyyy-MM-dd.log',
-            alwaysIncludePattern: true
+            alwaysIncludePattern: true,
+            layout:{type:'basic'},
+            encoding:'utf-8',
+            daysToKeep:15
         }
     },
     categories: {

@@ -9,53 +9,47 @@
   </head>
   <body>
     <div style = 'width:90%;height:90%;align-text:center;'>
-         <div id='note-list'>
+         <div id='note-list'></div>
 
-         </div>
-         <div>向下LOAD.....</div>
          <div><span id ='msg'></span></div>
     </div>
     <div></div>
     <script src='/javascripts/jquery-v2.2.4.js'></script>
     <script src='/javascripts/utils/common.js'></script>
+    <script src='/javascripts/utils/htmlEle.js'></script>
     <script>
-        let pageSize  = 20;
-        let pageNo = 1;
+        let hr_line = '<hr/>';
+
+        let bookId  = '';
 
         $(function(){
             initData();
         });
 
 
-        function loadAgain(){
-            pageNo++;
-            initData();
-        }
-
         function initData(){
-            ajaxGet('/net/getDocList',{pageSize:pageSize,pageNo:pageNo},function(error,result){
+            ajaxGet('/scrapy/getBook',{bookId,bookId},function(error,result){
                 if(error){
-                    $('#msg').text('ServiceError..');
+                    $('#msg').text('Service Error..');
                 }
+
                 if(result.success){
-                    var text = takeContent(result.data.rows);
+                    bookId = result.data.id;
+
+                    var text = content(result.data) + hr_line + buttonFun(bookId);
                     $('#note-list').append(text);
                 }
             })
         }
 
-        function takeContent(list){
-            var htmlContent = '';
-            for(let i in list){
-                htmlContent += content(list[i]);
-
-            }
-            return htmlContent;
-        }
-
+        //get content
         function content(item){
-            return '<div><div>'+item.title+'</div><div>'+item.author+'</div><div>'+item.content+'</div></div>'
+            return   '<div>'+ hr_line + E_DIV(item.title) + hr_line +E_DIV(item.author)+ hr_line +E_DIV(item.content)+'</div>'
         }
+        function buttonFun(bookId){
+            return '<div style="text-align:center;"><a class="book_button">上一篇</a>'+ '<a  class="book_button">下一篇</a></div>';
+        }
+
     </script>
   </body>
 </html>

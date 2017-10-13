@@ -48,6 +48,16 @@ exports.getDocById = (id,callback)=>{
     });
 }
 
+
+exports.getDocByFirst = (callback)=>{
+    db.Doc.findOne()
+        .then((doc)=>{
+            callback(null,doc);
+        }).catch((error)=>{
+        callback(error);
+    });
+}
+
 exports.deleteDoc = (ids,callback)=>{
     db.Doc.destroy({
         where:{

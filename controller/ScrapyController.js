@@ -49,17 +49,27 @@ exports.toFollowJianShu  = (req,res,next)=>{
  * @param res
  * @param next
  */
-exports.getDocList = (req,res,next)=>{
-    let pageNo  = req.query.pageNo || 1;
-    let pageSize = req.query.pageSize || 20;
-    docService.getDocByPage(2,2,(error,result)=>{
-        if(error){
-            res.status(200).json({success:false,message:'获取文章列表失败'});
-            return;
-        }
-        res.status(200).json({success:true,data:result});
-
-    });
+exports.getBook = (req,res,next)=>{
+    var _bid = req.query.bid;
+    //下一篇
+    if(_bid){
+        let newBid = _bid + 1  ;
+        docService.getDocById(newBid,(error,result)=>{
+            if(error){
+                res.status(200).json({success:false,message:'获取文章列表失败'});
+                return;
+            }
+            res.status(200).json({success:true,data:result});
+        });
+    }else{
+        docService.getDocByFirst((error,result)=>{
+            if(error){
+                res.status(200).json({success:false,message:'获取文章列表失败'});
+                return;
+            }
+            res.status(200).json({success:true,data:result});
+        });
+    }
 }
 
 

@@ -6,3 +6,12 @@ body {
 a {
   color: #00B7FF;
 }
+
+.book_button{
+  border: 2px;
+  display: inline-block;
+  width: 10%;
+  border-color: rgb(0, 0, 0);
+  border-style: solid;
+  border-radius: 12px;
+}
