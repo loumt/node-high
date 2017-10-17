@@ -4,7 +4,7 @@ var async = require('async');
 const url = require('url');
 var path = require("path");
 var logger = require('./../utils/logger').system();
-var userService = require('./../services/UserService');
+var userService = require('../services/user.service');
 
 
 exports.index = (req,res,next)=>{

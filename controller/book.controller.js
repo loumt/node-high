@@ -1,7 +1,7 @@
 'use strict'
 var logger = require('./../utils/logger').system();
 var ScrapyClient = require('./../modules/Scrapy/scrypy.client');
-var docService =require('../services/ScrapyService');
+var docService =require('../services/book.service');
 
 
 /**

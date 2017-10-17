@@ -6,7 +6,7 @@
 var cheerio = require('cheerio');
 var async = require('async');
 var superagent = require('superagent');
-var docService = require('./../../services/ScrapyService');
+var docService = require('../../services/book.service');
 var logger = require('./../../utils/logger').system();
 
 const NET_TYPE = {

@@ -1,6 +1,6 @@
 'use strict'
 var log4js = require('log4js');
-var config = require('./../config/logger');
+var config = require('../config/logger.config');
 
 log4js.configure(config);
 

@@ -1,6 +1,6 @@
 /* jshint indent: 1 */
 module.exports = function(sequelize, DataTypes) {
-    var User =  sequelize.define('User', {
+    var user =  sequelize.define('user', {
         userId: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -28,16 +28,16 @@ module.exports = function(sequelize, DataTypes) {
         },
     }, {
         timestamps: false,
-        tableName: 'USER',
+        tableName: 'user',
         underscored:false, //转换列名的驼峰命名规则为下划线命令规则
         charset:'utf8',
         comment:'用户表',
         // initialAutoIncrement:1,//AUTO_INCREMENT的初始值
     });
 
-    User.sync({force:false}).then((result)=>{
+    user.sync({force:false}).then((result)=>{
         //to do
     });
 
-    return User;
+    return user;
 };

@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
 
-const dbconfig = require('./../config/mysql');
+const dbconfig = require('./../config/mysql.config');
 
 var sequelize = new Sequelize(
     dbconfig.db, // 数据库名

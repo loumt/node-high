@@ -3,7 +3,7 @@
  */
 /* jshint indent: 1 */
 module.exports = function(sequelize, DataTypes) {
-    var Doc =  sequelize.define('Doc', {
+    var book =  sequelize.define('book', {
         id: {
             type: DataTypes.BIGINT(20),
             allowNull: false,
@@ -34,16 +34,16 @@ module.exports = function(sequelize, DataTypes) {
         },
     }, {
         timestamps: false,
-        tableName: 'DOC',
+        tableName: 'book',
         underscored:false, //转换列名的驼峰命名规则为下划线命令规则
         charset:'utf8',
         comment:'文章表',
         // initialAutoIncrement:1,//AUTO_INCREMENT的初始值
     });
 
-    Doc.sync({force:false}).then((result)=>{
+    book.sync({force:false}).then((result)=>{
         //to do
     });
 
-    return Doc;
+    return book;
 };

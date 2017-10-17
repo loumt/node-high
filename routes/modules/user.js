@@ -2,7 +2,7 @@
  * 用户模块路由
  * @type {any}
  */
-var user = require('./../../controller/UserController');
+var user = require('../../controller/user.controller');
 
 
 module.exports = (router)=>{

@@ -2,7 +2,7 @@
  * 爬虫模块路由
  * @type {any}
  */
-var scrapy = require('./../../controller/ScrapyController');
+var scrapy = require('../../controller/book.controller');
 
 
 module.exports = (router)=>{
