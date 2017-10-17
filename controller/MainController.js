@@ -5,6 +5,6 @@
  * @param res
  * @param next
  */
-exports.blogIndex = (req,res,next)=>{
+exports.toBlogPage = (req,res,next)=>{
     res.render('index',{title:'Looty博客'});
 }

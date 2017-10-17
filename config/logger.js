@@ -1,6 +1,6 @@
 //v2.0.0+
 // var dir = '/root/logs/node-high';
-var dir = 'D:/node-high';
+var dir = 'D:\\IntelliJ IDEA 2017.1.4\\my-workspace\\node-high\\logs';
 
 //defined a layout by myself
 // log4js.addLayout('json', function(config) {
@@ -40,22 +40,12 @@ module.exports = {
             layout:{type:'basic'},
             encoding:'utf-8',
             daysToKeep:15
-        },
-        rabbitMq:{
-            type: 'dateFile',
-            filename: dir+'/rabbit-mq',
-            pattern: '_yyyy-MM-dd.log',
-            alwaysIncludePattern: true,
-            layout:{type:'basic'},
-            encoding:'utf-8',
-            daysToKeep:15
         }
     },
     categories: {
         default: { appenders: [ 'out' ], level: 'info' },
         system: { appenders: [ 'system' ], level: 'debug' },
         consoleLog: { appenders: [ 'out','consoleLog' ], level: 'info' },
-        error: { appenders: [ 'out','error' ], level: 'info' },
-        rabbitMq:{ appenders: [ 'out','rabbitMq' ], level: 'info' }
+        error: { appenders: [ 'out','error' ], level: 'info' }
     }
 }

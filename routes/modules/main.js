@@ -2,5 +2,5 @@
 var main = require('./../../controller/MainController');
 
 module.exports = (router)=>{
-    router.all('/',main.blogIndex);
+    router.all('/',main.toBlogPage);
 }

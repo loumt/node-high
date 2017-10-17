@@ -5,9 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var routes =require('./routes');
-
-//配置输出
-require('./utils/logger').initConfig();
+var log   = require('./utils/logger').system();
 
 //初始化每日爬虫任务
 require('./modules/Schedule/schedule.client');
@@ -40,7 +38,7 @@ app.use(function(err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  console.error('[url]:'+req.url+'\t[message]:'+ err.message);
+  log.error(`[url]:'+${req.url}+'\t[message]:'+ ${err.message}`);
 
   res.status(err.status || 500);
   res.render('error');
